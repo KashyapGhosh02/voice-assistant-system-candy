@@ -28,7 +28,7 @@
         "responses": ["Sure, I'll do my best to assist you.", "Of course, I'm here to help!", "How can I assist you?", "I'll help you with your query."]
     },
     "movies": {
-        "patterns": ["movie suggestions", "recommend a movie", "what should I watch?", "best movies"],
+        "patterns": ["movie suggestions", "recommend a movie", "what should I watch?", "best movies","movies","movi"],
         "responses": ["which one Hollywood Bollywood or Tollywood?"]
     },
     "tv_series": {

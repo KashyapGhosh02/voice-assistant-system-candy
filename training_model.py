@@ -1,5 +1,4 @@
 #importing libaies 
-
 import json
 import numpy as np
 import os
@@ -11,15 +10,14 @@ from keras_preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, Embedding, GlobalAveragePooling1D
-
 import tensorflow as tf  
-
-import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
+import pickle
+
 # Download NLTK resources
-nltk.download('punkt')
+# nltk.download('punkt')
 stop_words = set(stopwords.words('english'))
 ps = PorterStemmer()
 
@@ -32,6 +30,10 @@ try:
 except FileNotFoundError as e:
     print(e)
     
+import tensorflow.python.keras as tf_keras
+from keras import __version__
+tf_keras.__version__ = __version__
+
 
 #append the data into sentences and labels
 
@@ -89,9 +91,6 @@ accuracy = history.history['accuracy'][-1]  # Get the accuracy from the last epo
 
 print(f"Final Accuracy: {accuracy * 100:.2f}%")
 
-import tensorflow.python.keras as tf_keras
-from keras import __version__
-tf_keras.__version__ = __version__
 
 
 
@@ -104,7 +103,6 @@ except Exception as e:
      print(f"Error during model saving: {e}")
 
 
-import pickle
 
 # to save the fitted tokenizer
 try:
@@ -113,7 +111,14 @@ try:
 except Exception as e :
     print(e)
 
-
+try:
+    # Save the tokenizer
+    tokenizer_json = tokenizer.to_json()
+    with open(r'Data\tokenizer.json', 'w', encoding='utf-8') as json_file:
+        json_file.write(tokenizer_json)
+    print("loading the tokenizer in form of json file")
+except Exception as e:
+    print(e)
 # to save the fitted label encoder
 try :
     with open(r'Data\label_encoder.pickle', 'wb') as ecn_file:
@@ -123,8 +128,8 @@ except Exception as e :
     
 
 # import tensorflow as tf
-# # print(f"TensorFlow version: {tf.__version__}")
-# # print(f"Keras version: {tf.keras.__version__}")
+# print(f"TensorFlow version: {tf.__version__}")
+# print(f"Keras version: {tf.keras.__version__}")
 
 #prediction fucntion    
 # def predict_intent_with_nltk(model, tokenizer, label_encoder, text, max_len, ps, stop_words):
