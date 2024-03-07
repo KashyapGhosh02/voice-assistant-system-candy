@@ -12,9 +12,19 @@ from nltk.stem import PorterStemmer
 stop_words = set(stopwords.words('english'))
 ps = PorterStemmer()
 
-
-
+import pickle
+from pickle import load
 import json 
+from keras.preprocessing.text import Tokenizer
+from keras_preprocessing.sequence import pad_sequences
+import numpy as np
+#from keras.models import load_model
+from tensorflow.python.keras.models import load_model
+
+#from keras_preprocessing.sequence import pad_sequences
+#from sklearn.preprocessing import LabelEncoder
+#from tensorflow.python.keras.models import Sequential
+#from tensorflow.python.keras.layers import Dense, Embedding, GlobalAveragePooling1D
 try:
     print("Uploading....")
     with open(r"/home/kg/project/voice-assistant-system-candy/Data/intents.json") as file:
@@ -24,15 +34,20 @@ except FileNotFoundError as e:
     print(e)
 
 try:
-    with open(r"/home/kg/project/voice-assistant-system-candy/Data/tokenizer.pickle","rb") as file_tockenizer:
-        tokenizer=load(file_tockenizer)
+    with open(r"/home/kg/project/voice-assistant-system-candy/Data/tokenizer.pickle", "rb") as file_tokenizer:
+        tokenizer = pickle.load(file_tokenizer)
 except FileNotFoundError as e:
-    print(e)
+    print(f"Error: Tokenizer file not found - {e}")
+except Exception as e:
+    print(f"Error loading tokenizer: {e}")
+    print("Ensure that the file format and content match the expected tokenizer structure.")
+else:
+    print("Tokenizer loaded successfully.")
 #loading label encoder
 try:
     with open(r"/home/kg/project/voice-assistant-system-candy/Data/label_encoder.pickle","rb") as enc:
-        lbl_encoder=load(enc)
-except FileNotFoundError as e:
+        lbl_encoder=pickle.load(enc)
+except Exception as e:
     print(e)
 
 import tensorflow as tf    
@@ -45,16 +60,6 @@ except Exception as e:
     print(f"Error loading the model: {e}")
 
 
-from keras_preprocessing.sequence import pad_sequences
-import numpy as np
-#from keras.models import load_model
-from pickle import load
-from tensorflow.python.keras.models import load_model
-#from keras.preprocessing.text import Tokenizer
-#from keras_preprocessing.sequence import pad_sequences
-#from sklearn.preprocessing import LabelEncoder
-#from tensorflow.python.keras.models import Sequential
-#from tensorflow.python.keras.layers import Dense, Embedding, GlobalAveragePooling1D
 
 
 #loading the tokenizer
