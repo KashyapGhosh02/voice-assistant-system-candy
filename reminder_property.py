@@ -51,16 +51,31 @@ def convert_string_to_time(time_str):
 #-----------------------------------------
 
 def SetReminder(Description,time):
-
+  
+  # check if instruction not given
+  if(time=="none"):
+    print("Did not get any instructions")
+    return
+  
   #check if user gave correct time format
   convert_str_time=convert_string_to_time(time)
   if not convert_str_time:
     say("Did not provide proper time")
     return
+  
   #connect to database
   conn=sqlite3.connect('reminder.db')
   c=conn.cursor() #connect to cursor
   time_format=convert_str_time
+
+  #checking if already a reminder present at same time
+  check_time=c.execute("SELECT time FROM VoiceReminder WHERE time=?", (time_format,)).fetchone()
+  if check_time:
+     # delete the old reminder
+     c.execute("DELETE FROM VoiceReminder WHERE time=?",(time_format,))
+     print("old reminder deleted")
+     
+  #if no reminder present at that time then set a reminder    
   try: 
     c.execute("INSERT INTO VoiceReminder VALUES (?, ?)", (Description, time_format))
     say("Reminder Stored Successfully at %s"%(time_format))
