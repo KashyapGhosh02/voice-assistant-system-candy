@@ -96,11 +96,12 @@ def GetReminder(time):
   if desc_msg:
    desc_msg="Reminder "+desc_msg[0]
    print(desc_msg)
-   if time not in sent_reminders:
-    snd_sms.smssnd(desc_msg)
-    sent_reminders.add(time)
    say(desc_msg)
-
+   time_date=datetime.now().strftime("%Y-%m-%d %H:%M:00")
+   if time_date not in sent_reminders:
+    snd_sms.smssnd(desc_msg)
+    sent_reminders.add(time_date)
+  
   conn.close()
   return
   
