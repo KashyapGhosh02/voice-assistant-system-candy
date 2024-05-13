@@ -22,22 +22,22 @@ GPIO.setmode(GPIO.BCM)
 
 # Set GPIO NUMBER as output
 green_led_pin = 26
-# yellow_led_pin=21
+yellow_led_pin=20
 red_led_pin=21
 GPIO.setup(green_led_pin, GPIO.OUT)
-# GPIO.setup(yellow_led_pin, GPIO.OUT)
+GPIO.setup(yellow_led_pin, GPIO.OUT)
 GPIO.setup(red_led_pin, GPIO.OUT)
 
 GPIO.output(green_led_pin, GPIO.LOW)
-#  GPIO.output(yellow_led_pin, GPIO.LOW)
+GPIO.output(yellow_led_pin, GPIO.LOW)
 GPIO.output(red_led_pin, GPIO.HIGH)
 #------------------------------
 #import custom-made modules 
-#import voice_greetings
+import voice_greetings
 import reminder_property
 from wolframalpha_rename import wolframalpha_result
 import ubidots_separatecode
-import prediction_func 
+#import prediction_func 
 #------------------------------
 # for pc :-
 # #Initializing pyttsx3
@@ -79,6 +79,7 @@ import prediction_func
 #         print(f"Error playing audio: {e}") 
 def say(text, language='en-US'):
     # Define the command to generate speech using pico2wave
+    GPIO.output(yellow_led_pin, GPIO.HIGH)
     pico_command = f'pico2wave -l {language} -w speech.wav "{text}"'
     
     # Execute the pico2wave command
@@ -89,6 +90,7 @@ def say(text, language='en-US'):
     
     # Clean up the temporary speech file
     os.remove('speech.wav') 
+    GPIO.output(yellow_led_pin, GPIO.LOW)
 #----------------speech-recognition--------------
 def takeCommand():
     r = sr.Recognizer()
@@ -113,7 +115,8 @@ def takeCommand():
         return "none" # End of takeCommand() function
     
 def wishMe(query): 
-    list_int_resp=prediction_func.predict_intent_with_nltk(text=query)
+    #list_int_resp=prediction_func.predict_intent_with_nltk(text=query)
+    list_int_resp=voice_greetings.predict_intent(text=query)
     return list_int_resp
 
    
@@ -174,7 +177,7 @@ def start():
                     if list_intent_response[0] == "goodbye" or list_intent_response[0]=="gratitude" :
                         say(list_intent_response[1])
                         break
-                    elif query.lower() =="none" and list_intent_response[0]=="nothing" :
+                    elif "no" in query or query.lower() =="none" and list_intent_response[0]=="nothing" :
                         say(list_intent_response[1])
                         break
                     else:
@@ -263,7 +266,10 @@ def get_result(query,list_intent_response):
         if "socket two" in query or "socket 2" in query:
             say("turning on the socket 2")
             ubidots_separatecode.send_to_ubidots_r2(1)
-
+        if "both" in query:
+            say("turning on the both the socket")
+            ubidots_separatecode.send_to_ubidots_r1(1)
+            ubidots_separatecode.send_to_ubidots_r2(1)
     elif "turn off " in query:
         if "socket one" in query  or "socket 1" in query:
             say("turning off the socket one")
@@ -271,6 +277,16 @@ def get_result(query,list_intent_response):
         if "socket two" in query or "socket 2" in query:
             say("turning off the socket two")
             ubidots_separatecode.send_to_ubidots_r2(0)
+        if "both" in query:
+            say("turning off the both the socket")
+            ubidots_separatecode.send_to_ubidots_r1(0)
+            ubidots_separatecode.send_to_ubidots_r2(0)
+    elif "reboot" in query:
+        say("rebooting the system")
+        os.system("sudo reboot")
+    elif "shutdown" in query:
+        say("shut")
+        os.system("sudo shutdown now")
     else:
         results = google_search(query) #google serach
         print(results)

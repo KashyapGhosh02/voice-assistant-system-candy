@@ -2,6 +2,7 @@
 import os
 import sqlite3
 from datetime import datetime
+import snd_sms
 # conn=sqlite3.connect('reminder.db')
 # c=conn.cursor()
 # c.execute("""CREATE TABLE VoiceReminder(
@@ -86,7 +87,7 @@ def SetReminder(Description,time):
     conn.close()
     return
 #---------------------------------------------
-
+sent_reminders = set() 
 def GetReminder(time):
   conn=sqlite3.connect('reminder.db')
   c=conn.cursor() #connect to cursor
@@ -95,7 +96,11 @@ def GetReminder(time):
   if desc_msg:
    desc_msg="Reminder "+desc_msg[0]
    print(desc_msg)
+   if time not in sent_reminders:
+    snd_sms.smssnd(desc_msg)
+    sent_reminders.add(time)
    say(desc_msg)
+
   conn.close()
   return
   
