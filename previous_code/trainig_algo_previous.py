@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 import joblib
 
 # Download NLTK resources (tokenizer)
-nltk.download('punkt')
+#nltk.download('punkt')
 
 # Load intents from JSON file in read mode
 file_path = r"/home/kg/project/voice-assistant-system-candy/Data/intents_old.json"
