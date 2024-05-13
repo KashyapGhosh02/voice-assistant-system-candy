@@ -285,7 +285,7 @@ def get_result(query,list_intent_response):
         say("rebooting the system")
         os.system("sudo reboot")
     elif "shutdown" in query:
-        say("shut")
+        say("shutting down the system")
         os.system("sudo shutdown now")
     else:
         results = google_search(query) #google serach
