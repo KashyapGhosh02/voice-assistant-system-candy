@@ -9,13 +9,13 @@ import json
 import random
 
 
-file_path_1 = r"C:\Users\kashy\Documents\project\project\Data\chatbot_model.joblib"
+file_path_1 = r"/home/kg/project/voice-assistant-system-candy/Data/chatbot_model.joblib"
 loaded_model = joblib.load(file_path_1)
 
 # Load the fitted vectorizer
-file_path_2 = r"C:\Users\kashy\Documents\project\project\Data\vectorizer.joblib"
+file_path_2 = r"/home/kg/project/voice-assistant-system-candy/Data/vectorizer.joblib"
 vectorizer = joblib.load(file_path_2)
-file_path_3 = r"C:\Users\kashy\Documents\project\project\Data\intents.json"
+file_path_3 = r"/home/kg/project/voice-assistant-system-candy/Data/intents_old.json"
 try:
     with open(file_path_3, 'r') as file:
         intents= json.load(file)
@@ -36,6 +36,6 @@ def predict_intent(text):
         return [intent,response]
         
 
-predict_intent("njkdsfsfljosjfvov")
+#predict_intent("njkdsfsfljosjfvov")
 
     

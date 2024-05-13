@@ -11,7 +11,7 @@ import joblib
 nltk.download('punkt')
 
 # Load intents from JSON file in read mode
-file_path = r"c:\Users\kashy\Documents\project\project\Data\intents.json"
+file_path = r"/home/kg/project/voice-assistant-system-candy/Data/intents_old.json"
 
 try:
     with open(file_path, 'r') as file:
@@ -44,5 +44,5 @@ accuracy = accuracy_score(Y_test, predictions)
 print(f"Model Accuracy: {accuracy:.2f}")
 
 # Save the trained model and vectorizer
-joblib.dump(Vectorizer, r"Data\vectorizer.joblib")
-joblib.dump(model, r"Data\chatbot_model.joblib")
+joblib.dump(Vectorizer, r"/home/kg/project/voice-assistant-system-candy/Data/vectorizer.joblib")
+joblib.dump(model, r"/home/kg/project/voice-assistant-system-candy/Data/chatbot_model.joblib")
