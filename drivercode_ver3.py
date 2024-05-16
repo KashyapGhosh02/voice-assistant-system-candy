@@ -51,32 +51,6 @@ import ubidots_separatecode
 #     engine.say(audio)
 #     engine.runAndWait()
     
-# for rasp :- 
-# # initialize piper
-# def say(text, model="/home/kg/project/en_US-lessac-medium.onnx", output_file='output.wav'):
-#     command = [
-#         '/home/kg/project/myenv/bin/piper',
-#         '--model', model,
-#         '--output_file', output_file
-#     ]
-
-#     try:
-#         subprocess.run(
-#             command,
-#             input=text,
-#             check=True,
-#             text=True
-#         )
-#         print(f"Speech generated successfully. Output saved to {output_file}")
-#         play_audio(output_file)
-#     except subprocess.CalledProcessError as e:
-#         print(f"Error generating speech: {e}")
-
-# def play_audio(audio_file):
-#     try:
-#         subprocess.run(['aplay', audio_file], check=True)
-#     except subprocess.CalledProcessError as e:
-#         print(f"Error playing audio: {e}") 
 def say(text, language='en-US'):
     # Define the command to generate speech using pico2wave
     GPIO.output(yellow_led_pin, GPIO.HIGH)
@@ -239,22 +213,7 @@ def get_result(query,list_intent_response):
         say("According to Wikipedia")
         say(results)
 
-    # elif list_intent_response[0]=="joke" and "joke " in query:
-    #     pass
-    # elif list_intent_response[0]=="music" and "music" in query:
-    #     pass
-    # elif list_intent_response[0]=="gratitude" :
-    #     say(list_intent_response[1])
-    #     return
-    # elif list_intent_response[0]=="apologies":
-    #     say(list_intent_response[1])
-    #     return
-    # elif list_intent_response[0]=="positive_feedback":
-    #     say(list_intent_response[1])
-    #     return
-    # elif list_intent_response[0]=="negative_feedback":
-    #     say(list_intent_response[1])
-    #     return
+
     elif list_intent_response[0]=="math" and "math" in query:
         result=wolframalpha_result(question=query)
         say(result)
