@@ -141,8 +141,7 @@ def start():
             print(curr_time)
             reminder_property.GetReminder(curr_time)    
             query = takeCommand()
-            #if query is None:
-            #    continue  # Continue listening if no query is obtained
+            
             if "candy" in query.lower():
                 list_intent_response = wishMe(query)
                 say(list_intent_response[1])
@@ -212,31 +211,9 @@ def get_result(query,list_intent_response):
               say("Temperature is "+ temp)
               say("Sky Description:  "+ sky)
         except:
-            say("Sorry, Could not get any results ")
-    # elif "time now" in query or "time in " in query or "time at " in query  or "date in "in query or "today's date " in  query or "weather in " in query or "weather at " in query or "temperature in "  in query or "temperature at "  in query: # for time date and weather related info
-    #     x = datetime.datetime.now()
-    #     if "date" in query: #Only local Date
-    #         say("Date is "+x.strftime("%A ")+x.strftime("%d ")+x.strftime("%B ")+x.strftime("%Y ")) # Date
-    #     if "time" in query: #time can be searched for local and international zones   
-    #         url = "https://google.com/search?q=" + query
-    #         request_result = requests.get( url )
-    #         soup = bs4.BeautifulSoup( request_result.text  , "html.parser" ) 
-    #         time = soup.find( "div" , class_='BNeawe' ).text  
-    #         say("time is "+time ) 
+            say("Sorry, Could not get any results ")      
 
-    #     if  "weather in " in query or "weather at " in query or "temperature in "  in query or "temperature at "  in query: # for time date and weather related info
-    #         url = "https://www.google.com/search?q="+query
-    #         html = requests.get(url).content
-    #         soup = BeautifulSoup(html, 'html.parser')
-    #         temp = soup.find('div', attrs={'class': 'BNeawe iBp4i AP7Wnd'}).text
-    #         str1 = soup.find('div', attrs={'class': 'BNeawe tAd8D AP7Wnd'}).text
-    #         data = str1.split('\n')
-    #         sky = data[1]
-    #         say("Temperature is "+ temp)
-    #         say("Sky Description:  "+ sky)
-        
 
-          
     elif 'wikipedia' in query:     # Wikipedia search
         say('Searching Wikipedia...')
         query = query.replace("wikipedia", "")
@@ -246,10 +223,7 @@ def get_result(query,list_intent_response):
             say(results)
         except :
             say("Sorry, Could not get any results ")
-    # elif list_intent_response[0]=="math" and "math" in query:
-    #     result=wolframalpha_result(question=query)
-    #     say(result)
-    #     return
+
     elif "turn on" in query:
         if "socket one" in query or "socket 1" in query:
             say("turning on the socket 1")
@@ -272,11 +246,12 @@ def get_result(query,list_intent_response):
             say("turning off both socket one and socket two")
             ubidots_separatecode.send_to_ubidots_r1(0)
             ubidots_separatecode.send_to_ubidots_r2(0)
-    elif "restart assistant" in query or "reboot assistant " in query:
-        say("rebooting the system")
+            
+    elif "restart assistant" in query :
+        say("restarting the assistant")
         os.system("sudo reboot")
     elif "shutdown assistant"  in query:
-        say("shutting down the system")
+        say("shutting down the assistant")
         os.system("sudo shutdown now")
     else:
         results = google_search(query) #google serach
