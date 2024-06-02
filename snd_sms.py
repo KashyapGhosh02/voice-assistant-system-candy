@@ -8,10 +8,10 @@ def smssnd(msg):
     message = {
         "secret": apiSecret,
         "mode": "devices",
-        "device": "00000000-0000-0000-1be0-60217962d3b4",
+        "device": "00000000-0000-0000-4ae4-ec5675c45353",
         "sim": 1,
         "priority": 1,
-        "phone": "+916291845270",
+        "phone": "+918670457072",
         "message": "hi your voice assistant had a message for you :"+ msg
     }
 

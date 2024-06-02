@@ -35,7 +35,6 @@ GPIO.output(red_led_pin, GPIO.HIGH)
 #import custom-made modules 
 import voice_greetings
 import reminder_property
-from wolframalpha_rename import wolframalpha_result
 import ubidots_separatecode
 #import prediction_func 
 #------------------------------
@@ -53,6 +52,7 @@ import ubidots_separatecode
     
 def say(text, language='en-US'):
     # Define the command to generate speech using pico2wave
+    GPIO.output(green_led_pin,GPIO.LOW)
     GPIO.output(yellow_led_pin, GPIO.HIGH)
     pico_command = f'pico2wave -l {language} -w speech.wav "{text}"'
     
@@ -149,11 +149,13 @@ def start():
                 while True:
                     query = takeCommand()
                     list_intent_response = wishMe(query)
-
+                    if "no" in query:
+                        say("Goodbye then")
+                        break
                     if list_intent_response[0] == "goodbye" or list_intent_response[0]=="gratitude" :
                         say(list_intent_response[1])
                         break
-                    elif "no" in query or query.lower() =="none" and list_intent_response[0]=="nothing" :
+                    elif query.lower() =="none" and list_intent_response[0]=="nothing" :
                         say(list_intent_response[1])
                         break
                     else:
@@ -168,7 +170,6 @@ def get_result(query,list_intent_response):
     
     if query.lower()=="none" and list_intent_response[0]=="nothing":      
         say("No instructions found")
-    
     elif "add" in query or "set" in query and "reminder" in query:
         say("Add description")
         desc_1=takeCommand()
@@ -257,7 +258,7 @@ def get_result(query,list_intent_response):
             say("turning on the socket 2")
             ubidots_separatecode.send_to_ubidots_r2(1)
         if "both" in query:
-            say("turning on both socket")
+            say("turning on both socket one and socket two")
             ubidots_separatecode.send_to_ubidots_r1(1)
             ubidots_separatecode.send_to_ubidots_r2(1)
     elif "turn off " in query:
@@ -268,13 +269,13 @@ def get_result(query,list_intent_response):
             say("turning off the socket two")
             ubidots_separatecode.send_to_ubidots_r2(0)
         if "both" in query:
-            say("turning off both socket s")
+            say("turning off both socket one and socket two")
             ubidots_separatecode.send_to_ubidots_r1(0)
             ubidots_separatecode.send_to_ubidots_r2(0)
-    elif "reboot" in query:
+    elif "reboot the assistant" in query or "reboot the system" in query:
         say("rebooting the system")
         os.system("sudo reboot")
-    elif "shutdown" in query:
+    elif "shutdown the assistant" in query or "reboot the system" in query:
         say("shutting down the system")
         os.system("sudo shutdown now")
     else:

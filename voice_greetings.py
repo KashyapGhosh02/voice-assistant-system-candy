@@ -36,6 +36,6 @@ def predict_intent(text):
         return [intent,response]
         
 
-#predict_intent("njkdsfsfljosjfvov")
+# predict_intent("No")
 
     
