@@ -272,10 +272,10 @@ def get_result(query,list_intent_response):
             say("turning off both socket one and socket two")
             ubidots_separatecode.send_to_ubidots_r1(0)
             ubidots_separatecode.send_to_ubidots_r2(0)
-    elif "reboot the assistant" in query or "reboot the system" in query:
+    elif "restart assistant" in query or "reboot assistant " in query:
         say("rebooting the system")
         os.system("sudo reboot")
-    elif "shutdown the assistant" in query or "reboot the system" in query:
+    elif "shutdown assistant"  in query:
         say("shutting down the system")
         os.system("sudo shutdown now")
     else:
